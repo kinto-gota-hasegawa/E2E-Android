@@ -63,7 +63,7 @@ jobs:
           kill ${{ steps.start_appium.outputs.appium_pid }}
 
       - name: Upload test-result.mp4
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-video
           path: app/test-result.mp4
