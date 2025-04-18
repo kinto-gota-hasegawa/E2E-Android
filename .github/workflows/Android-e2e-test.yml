@@ -38,7 +38,14 @@ jobs:
 
       - name: Check Appium
         run: npx appium-doctor --android
-#
-#      - name: Start Appium server in background
-#        run: |
-#          nohup npx appium > appium.log 2>&1 &
+
+      - name: Start Appium server in background
+        id: start_appium
+        run: |
+          nohup npx appium > appium.log 2>&1 &
+          echo "appium_pid=$!" >> $GITHUB_OUTPUT
+
+      - name: Kill Appium process
+        run: |
+          echo "Killing Appium process with PID ${{ steps.start_appium.outputs.appium_pid }}"
+          kill ${{ steps.start_appium.outputs.appium_pid }}
