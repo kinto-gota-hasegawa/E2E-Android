@@ -9,5 +9,36 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Android E2E Test
-        run: echo "Executing Android E2E Test"
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Appium CLI
+        run: npm install -g appium
+
+      - name: Install uiautomator2 driver
+        run: appium driver install uiautomator2
+
+      - name: Set ANDROID_HOME environment variable
+        run: echo "ANDROID_HOME=$HOME/Library/Android/sdk" >> $GITHUB_ENV
+
+      - name: Install Android SDK (Command Line Tools)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: default
+          arch: x86_64
+          force-avd-creation: false
+          disable-animations: true
+          script: echo "Android SDK setup complete"
+
+      - name: Check Appium
+        run: npx appium-doctor --android
+#
+#      - name: Start Appium server in background
+#        run: |
+#          nohup npx appium > appium.log 2>&1 &
