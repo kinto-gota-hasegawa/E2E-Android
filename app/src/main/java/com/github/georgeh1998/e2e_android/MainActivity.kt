@@ -19,9 +19,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -68,6 +71,7 @@ fun AppNavigation(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
     onLogin: () -> Unit
@@ -77,14 +81,17 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.height(64.dp))
+        Spacer(modifier = Modifier.height(128.dp))
         Text(
-            text = "username"
+            text = "username",
         )
         Spacer(modifier = Modifier.height(6.dp))
         TextField(
             value = "",
-            onValueChange = {}
+            onValueChange = {},
+            modifier = Modifier
+                .testTag("username")
+                .semantics { testTagsAsResourceId = true }
         )
         Spacer(modifier = Modifier.height(32.dp))
         Text(
@@ -93,11 +100,17 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(6.dp))
         TextField(
             value = "",
-            onValueChange = {}
+            onValueChange = {},
+            modifier = Modifier
+                .testTag("password")
+                .semantics { testTagsAsResourceId = true }
         )
         Spacer(modifier = Modifier.weight(1f))
         Button(
-            onClick = onLogin
+            onClick = onLogin,
+            modifier = Modifier
+                .testTag("login_button")
+                .semantics { testTagsAsResourceId = true }
         ) {
             Text(
                 text = "Login"

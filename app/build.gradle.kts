@@ -57,5 +57,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    testImplementation("io.appium:java-client:8.3.0")
     implementation("androidx.navigation:navigation-compose:2.8.0")
 }
