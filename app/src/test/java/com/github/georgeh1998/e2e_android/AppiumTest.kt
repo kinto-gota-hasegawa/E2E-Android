@@ -32,7 +32,7 @@ class AppiumTest {
         val driver = buildDriver()
         driver.activateApp("com.github.georgeh1998.e2e_android")
         driver.startRecordingScreen()
-        Thread.sleep(3000)
+        Thread.sleep(5000)
         driver.findElement(By.id("login_button")).click()
         val base64Video = driver.stopRecordingScreen()
         val videoBytes = Base64.getDecoder().decode(base64Video)
