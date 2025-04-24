@@ -42,7 +42,7 @@ jobs:
       - name: Start Appium server in background
         id: start_appium
         run: |
-          nohup npx appium > appium.log 2>&1 &
+          nohup npx appium --port 4723 > appium.log 2>&1 &
           echo "appium_pid=$!" >> $GITHUB_OUTPUT
 
       - name: Set up Gradle
