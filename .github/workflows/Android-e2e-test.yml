@@ -23,9 +23,6 @@ jobs:
       - name: Install uiautomator2 driver
         run: appium driver install uiautomator2
 
-      - name: Set ANDROID_HOME environment variable
-        run: echo "ANDROID_HOME=$HOME/Library/Android/sdk" >> $GITHUB_ENV
-
       - name: Install Android SDK (Command Line Tools)
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -35,6 +32,9 @@ jobs:
           force-avd-creation: false
           disable-animations: true
           script: echo "Android SDK setup complete"
+
+      - name: Set ANDROID_HOME environment variable
+        run: echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
 
       - name: Check Appium
         run: npx appium-doctor --android
