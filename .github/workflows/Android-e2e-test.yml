@@ -29,22 +29,6 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: Install Android SDK (Command Line Tools)
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 30
-          target: default
-          arch: x86_64
-          force-avd-creation: false
-          disable-animations: true
-          script: ./gradlew connectedCheck
-
-      - name: Wait for emulator
-        run: adb wait-for-device
-
-      - name: Set ANDROID_HOME environment variable
-        run: echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
-
       - name: Check Appium
         run: npx appium-doctor --android
 
@@ -63,23 +47,28 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: Run unit tests
-        run: ./gradlew :app:testDebugUnitTest
+      - name: Set ANDROID_HOME environment variable
+        run: echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
 
-      - name: Show test failure summary
-        if: failure()
-        run: |
-          echo "==================================== Failed Tests Summary ===================================="
-          cat appium.log
-
+      - name: Install Android SDK (Command Line Tools)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: default
+          arch: x86_64
+          force-avd-creation: false
+          disable-animations: true
+          script: |
+            ./gradlew :app:assembleDebug :app:installDebug
+            ./gradlew :app:testDebugUnitTest
 
       - name: Kill Appium process
         run: |
           echo "Killing Appium process with PID ${{ steps.start_appium.outputs.appium_pid }}"
           kill ${{ steps.start_appium.outputs.appium_pid }}
 
-#      - name: Upload test-result.mp4
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: test-video
-#          path: app/test-result.mp4
+      - name: Upload test-result.mp4
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-video
+          path: app/test-result.mp4
