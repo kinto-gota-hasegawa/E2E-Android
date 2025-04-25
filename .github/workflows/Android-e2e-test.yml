@@ -61,7 +61,7 @@ jobs:
         if: failure()
         run: |
           echo "==================================== Failed Tests Summary ===================================="
-          cat app/build/reports/tests/testDebugUnitTest/index.html
+          cat appium.log
 
 
       - name: Kill Appium process
