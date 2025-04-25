@@ -57,6 +57,13 @@ jobs:
       - name: Run unit tests
         run: ./gradlew :app:testDebugUnitTest
 
+      - name: Show test failure summary
+        if: failure()
+        run: |
+          echo "==================================== Failed Tests Summary ===================================="
+          cat app/build/reports/tests/testDebugUnitTest/index.html
+
+
       - name: Kill Appium process
         run: |
           echo "Killing Appium process with PID ${{ steps.start_appium.outputs.appium_pid }}"
