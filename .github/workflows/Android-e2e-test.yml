@@ -23,18 +23,18 @@ jobs:
       - name: Install uiautomator2 driver
         run: appium driver install uiautomator2
 
-#      - name: Install Android SDK (Command Line Tools)
-#        uses: reactivecircus/android-emulator-runner@v2
-#        with:
-#          api-level: 30
-#          target: default
-#          arch: x86_64
-#          force-avd-creation: false
-#          disable-animations: true
-#          script: echo "Android SDK setup complete"
+      - name: Install Android SDK (Command Line Tools)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: default
+          arch: x86_64
+          force-avd-creation: false
+          disable-animations: true
+          script: echo "Android SDK setup complete"
 
-#      - name: Set ANDROID_HOME environment variable
-#        run: echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
+      - name: Set ANDROID_HOME environment variable
+        run: echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
 
       - name: Check Appium
         run: npx appium-doctor --android
@@ -54,17 +54,14 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: cat appium.log
-        run: cat appium.log
+      - name: Run unit tests
+        run: ./gradlew :app:testDebugUnitTest
 
-#      - name: Run unit tests
-#        run: ./gradlew :app:testDebugUnitTest
-
-#      - name: Show test failure summary
-#        if: failure()
-#        run: |
-#          echo "==================================== Failed Tests Summary ===================================="
-#          cat app/build/reports/tests/testDebugUnitTest/index.html
+      - name: Show test failure summary
+        if: failure()
+        run: |
+          echo "==================================== Failed Tests Summary ===================================="
+          cat app/build/reports/tests/testDebugUnitTest/index.html
 
 
       - name: Kill Appium process

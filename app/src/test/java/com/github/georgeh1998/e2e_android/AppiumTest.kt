@@ -21,7 +21,7 @@ internal fun buildDriver(): AndroidDriver {
         }
 
     return AndroidDriver(
-        URI("http://localhost:4723").toURL(),
+        URI("http://127.0.0.1:4723").toURL(),
         options,
     )
 }
